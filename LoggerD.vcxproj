@@ -74,6 +74,9 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ProjectPublicIncludePath>D:\repos\ARM\LoggerD\include;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Makefile" />
   </ItemGroup>

@@ -1,8 +1,36 @@
 #include "config.h"
 
+int findIndexSubstring(char* str, int length, char* substr, int lengthSub)
+{
+	int isFind = TRUE;
+	for (size_t i = 0; i < length; i++)
+	{
+		if (str[i] == substr[0])
+		{
+			size_t j;
+			for (j = 0; j < lengthSub; j++)
+			{
+				if (str[i + j] != substr[j])
+				{
+					isFind = FALSE;
+					break;
+				}
+			}
+			if (isFind)
+			{
+				return i + j;
+			}
+
+			isFind = TRUE;
+		}
+	}
+
+	return -1;
+}
+
 int findSymbol(char* str, int length, int offset, char symbol)
 {
-	for (size_t i = 0; i < length; i++)
+	for (size_t i = offset; i < length; i++)
 	{
 		if (str[i] == symbol)
 			return i;
@@ -18,6 +46,12 @@ int readConfig()
 
 	close(file);
 
+	int res;
+	res = findIndexSubstring(buff, sizeof(buff), CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 1);
+	printf("Position %d\n", res);
+	res = findIndexSubstring(buff, sizeof(buff), CONFIG_TIMER, sizeof(CONFIG_TIMER) - 1);
+	printf("Position %d\n", res);
+
 	return 0;
 }
 
@@ -26,8 +60,8 @@ int writeConfig()
 	int file;
 	file = open(FILECONFIG, O_CREAT | O_WRONLY);
 
-	write(file, CONFIG_TIMER, sizeof(CONFIG_TIMER) - 1);
 	write(file, CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 1);
+	write(file, CONFIG_TIMER, sizeof(CONFIG_TIMER) - 1);
 
 	close(file);
 	return 0;

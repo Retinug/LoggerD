@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <malloc.h>
@@ -14,12 +15,14 @@
 #define FALSE 0
 #define TRUE 1
 
-extern int timer;
-extern char* path;
+static char* path;
+static int timer;
 
 int findIndexSubstring(char* str, int length, char* substr, int lengthSub);
 
 int findSymbol(char* str, int length, int offset, char symbol);
+
+char* findArg(char* buffer, int bufferLenght, char* searchStr, int lenght);
 
 int readConfig();
 

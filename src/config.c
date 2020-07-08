@@ -38,6 +38,22 @@ int findSymbol(char* str, int length, int offset, char symbol)
 	return -1;
 }
 
+char* findArg(char* buffer, int bufferLenght, char* searchStr, int lenght)
+{
+	int res, end, diff;
+	char* argBuff;
+
+	res = findIndexSubstring(buffer, bufferLenght, searchStr, lenght);
+	end = findSymbol(buffer, bufferLenght, res, '\n');
+	diff = end - res;
+	argBuff = (char*)malloc((end - res) * sizeof(char));
+	for (size_t i = 0; i < diff; i++)
+	{
+		argBuff[i] = buffer[res + i];
+	}
+	return argBuff;
+}
+
 int readConfig()
 {
 	char buff[CONFIG_LENGTH];
@@ -46,12 +62,12 @@ int readConfig()
 
 	close(file);
 
-	int res, end;
-	res = findIndexSubstring(buff, sizeof(buff), CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 2);
-	end = findSymbol(buff, sizeof(buff), res, '\n');
+	char* buffer;
 
-	res = findIndexSubstring(buff, sizeof(buff), CONFIG_TIMER, sizeof(CONFIG_TIMER) - 2);
-	end = findSymbol(buff, sizeof(buff), res, '\n');
+	path = findArg(buff, CONFIG_LENGTH, CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 2);
+	buffer = findArg(buff, CONFIG_LENGTH, CONFIG_TIMER, sizeof(CONFIG_TIMER) - 2);
+	timer = atoi(buffer);
+	free(buffer);
 
 	return 0;
 }

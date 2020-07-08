@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <malloc.h>
 #define FILECONFIG "/etc/LoggerD.conf"
 
 #define CONFIG_TIMER "TIMER=\n"

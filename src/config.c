@@ -46,11 +46,12 @@ int readConfig()
 
 	close(file);
 
-	int res;
-	res = findIndexSubstring(buff, sizeof(buff), CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 1);
-	printf("Position %d\n", res);
-	res = findIndexSubstring(buff, sizeof(buff), CONFIG_TIMER, sizeof(CONFIG_TIMER) - 1);
-	printf("Position %d\n", res);
+	int res, end;
+	res = findIndexSubstring(buff, sizeof(buff), CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 2);
+	end = findSymbol(buff, sizeof(buff), res, '\n');
+
+	res = findIndexSubstring(buff, sizeof(buff), CONFIG_TIMER, sizeof(CONFIG_TIMER) - 2);
+	end = findSymbol(buff, sizeof(buff), res, '\n');
 
 	return 0;
 }
@@ -58,10 +59,14 @@ int readConfig()
 int writeConfig()
 {
 	int file;
-	file = open(FILECONFIG, O_CREAT | O_WRONLY);
 
-	write(file, CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 1);
-	write(file, CONFIG_TIMER, sizeof(CONFIG_TIMER) - 1);
+	file = open(FILECONFIG, O_WRONLY);
+	if (file == -1)
+	{
+		file = open(FILECONFIG, O_CREAT | O_WRONLY);
+		write(file, CONFIG_FILEOUT, sizeof(CONFIG_FILEOUT) - 1);
+		write(file, CONFIG_TIMER, sizeof(CONFIG_TIMER) - 1);
+	}
 
 	close(file);
 	return 0;
